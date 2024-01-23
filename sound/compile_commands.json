@@ -1,0 +1,15 @@
+[
+  {
+    "arguments": [
+      "/sbin/gcc
+      "-Wall",
+      "./sine.c"
+      "-lm"
+      "-ljack"
+
+    ],
+    "directory": "/home/horhik/Code/experiments/sound",
+    "file": "/home/horhik/Code/experiments/sound/sine.c",
+    "output": "/home/horhik/Code/experiments/sound/a.out"
+  }
+]
