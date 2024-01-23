@@ -1,0 +1,6 @@
+{
+  "compileCommandsDir": "build",
+  "fallback-style": "Google",
+  "extraClangdArgs": ["-lm", "-ljack", "-lraylib"]
+}
+
