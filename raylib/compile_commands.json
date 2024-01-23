@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/horhik/Code/Tinkering/raylib/build",
-  "command": "/nix/store/90h6k8ylkgn81k10190v5c9ldyjpzgl9-gcc-wrapper-12.3.0/bin/gcc  -I/home/horhik/Code/Tinkering/raylib/include -Wall -Wextra -I/nix/store/ssy23r370b8q1nfmpa4nm8xx8yli22af-raylib-4.5.0/include -o CMakeFiles/AttractorSoundExecutable.dir/src/main.c.o -c /home/horhik/Code/Tinkering/raylib/src/main.c",
-  "file": "/home/horhik/Code/Tinkering/raylib/src/main.c"
-}
-]
