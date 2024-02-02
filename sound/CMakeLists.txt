@@ -34,12 +34,12 @@ target_link_libraries(mouse PRIVATE jack)
 
 #linking others
 target_link_libraries(phasor PRIVATE jack)
-target_link_libraries(sine PRIVATE jack)
+target_link_libraries(sine PRIVATE jack m)
 target_link_libraries(saw PRIVATE jack)
 
 
 
 
 # Optional: Add compiler flags
-add_compile_options(-Wall -Wextra -g)
-
+add_compile_options(-Wall -Wextra -lm -g)
+set(COMPILE_FLAGS "${COMPILE_FLAGS} -Wall -Wextra -lm -g")

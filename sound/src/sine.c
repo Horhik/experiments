@@ -1,8 +1,10 @@
 /* sine_unbounded.c: sine oscillator with unbounded phasor */
 
 #include <stdio.h>
-
+#include<signal.h>
 #include <math.h>
+#include <stdlib.h>
+
 #define PI_F 3.14159265f
 #include <jack/jack.h>
 
@@ -50,16 +52,21 @@ static void jack_finish(void) {
   jack_deactivate(client);
   jack_client_close(client);
 }
+void sig_handler(int signum)
+{
+  printf("\nDo some signal handling actions here\n");
+  exit( 0 );
+}
+
 
 
 int main(void) {
 
   jack_init();
-  /* idle main thread */
-  char a;
-  while(a != 'c')
-    a = getchar();
 
+  /* idle main thread */
+  signal( SIGINT, sig_handler );
+  while(1){;} 
 
   jack_finish();
   return 0;

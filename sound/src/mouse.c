@@ -1,55 +1,75 @@
-#include <SDL.h>
+#include "raylib.h"
+#include <stdio.h>
+#include <jack/jack.h>
+#define SCREEN_SIZE 800
 
-#include <signal.h>
-//gcc `pkg-config --cflags sdl2`  -I ` pkg-config --variable=libdir sdl2` -lm `pkg-config --libs sdl2` ./mouse.c  -o mouse; ./mouse
+typedef jack_default_audio_sample_t sample_t;
+
+static jack_client_t *client = NULL;
+static jack_port_t *port_x_out = NULL;
+static jack_port_t *port_y_out = NULL;
+static jack_nframes_t sr;
+static float freq= 440;
 
 
-static volatile int done = 0;
+static int on_process(jack_nframes_t nframes, void *arg);
 
+static void jack_init(void) {
 
-static void
-die(const char *msg)
-{
-  SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "%s\n", msg);
-  exit(1);
+  client = jack_client_open("mouse", JackNoStartServer, NULL);
+
+  sr = jack_get_sample_rate(client);
+
+  jack_set_process_callback(client, on_process, NULL);
+
+  port_x_out = jack_port_register(client, "X-out", JACK_DEFAULT_AUDIO_TYPE, JackPortIsOutput, 0);
+  port_y_out = jack_port_register(client, "Y-out", JACK_DEFAULT_AUDIO_TYPE, JackPortIsOutput, 0);
+
+  jack_activate(client);
 }
 
+static int on_process(jack_nframes_t nframes, void *arg){
 
-static void
-on_signal(int signum)
+  sample_t *out_x, *out_y;
 
-{
-  (void)signum;
-  done = 1;
-}
+  out_x = jack_port_get_buffer(port_x_out, nframes);
+  out_y = jack_port_get_buffer(port_y_out, nframes);
+  // array input samples
 
-
-int
-main(int argc, char *argv[])
-{
-  int x = 0, y = 0, prev_x = 0, prev_y = 0;
-  (void)argc;
-  (void)argv;
-
-  if (SDL_Init(SDL_INIT_VIDEO) != 0)
-    die("fail to init sdl");
-
-
-  /* catch signal for grace shutdown */
-
-  signal(SIGINT, on_signal);
-
-  while (!done) {
-    SDL_Event evt;
-    while (SDL_PollEvent(&evt));
-    SDL_GetGlobalMouseState(&x, &y);
-    if (x != prev_x || y != prev_y) {
-      printf("mouse: %d %d\n", x, y);
-      prev_x = x;
-      prev_y = y;
-    }
+  for (int i = 0; i < nframes; ++i) {
+    out_x[i] = (float) SCREEN_SIZE / (float) GetMouseX();
+    out_y[i] = (float) SCREEN_SIZE / (float) GetMouseY();
   }
 
-  SDL_Quit();
   return 0;
+}
+
+static void jack_finish(void) {
+
+  jack_deactivate(client);
+
+  jack_client_close(client);
+}
+
+
+
+int main(void)
+{
+    InitWindow(SCREEN_SIZE, SCREEN_SIZE, "Mous Capturing");
+    // initialize sound
+    jack_init();
+
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+            ClearBackground(RAYWHITE);
+            DrawText("UP-DOWN: tone, RIGHT-LEFT: shape", 190, 200, 20, LIGHTGRAY);
+        EndDrawing();
+    }
+
+    // finishing sound
+    jack_finish();
+    CloseWindow();
+
+    return 0;
 }
