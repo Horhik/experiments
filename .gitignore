@@ -1,0 +1,8 @@
+sound/build
+sound/bin
+attractorSonification/build
+attractorSonification/bin
+*~
+*#
+.#*
+
