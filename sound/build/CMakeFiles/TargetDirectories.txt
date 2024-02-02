@@ -1,0 +1,6 @@
+/home/horhik/Code/Tinkering/sound/build/CMakeFiles/phasor.dir
+/home/horhik/Code/Tinkering/sound/build/CMakeFiles/sine.dir
+/home/horhik/Code/Tinkering/sound/build/CMakeFiles/saw.dir
+/home/horhik/Code/Tinkering/sound/build/CMakeFiles/mouse.dir
+/home/horhik/Code/Tinkering/sound/build/CMakeFiles/edit_cache.dir
+/home/horhik/Code/Tinkering/sound/build/CMakeFiles/rebuild_cache.dir

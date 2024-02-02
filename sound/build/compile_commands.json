@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/horhik/Code/Tinkering/sound/build",
+  "command": "/nix/store/90h6k8ylkgn81k10190v5c9ldyjpzgl9-gcc-wrapper-12.3.0/bin/gcc    -o CMakeFiles/phasor.dir/src/phasor.c.o -c /home/horhik/Code/Tinkering/sound/src/phasor.c",
+  "file": "/home/horhik/Code/Tinkering/sound/src/phasor.c"
+},
+{
+  "directory": "/home/horhik/Code/Tinkering/sound/build",
+  "command": "/nix/store/90h6k8ylkgn81k10190v5c9ldyjpzgl9-gcc-wrapper-12.3.0/bin/gcc    -o CMakeFiles/sine.dir/src/sine.c.o -c /home/horhik/Code/Tinkering/sound/src/sine.c",
+  "file": "/home/horhik/Code/Tinkering/sound/src/sine.c"
+},
+{
+  "directory": "/home/horhik/Code/Tinkering/sound/build",
+  "command": "/nix/store/90h6k8ylkgn81k10190v5c9ldyjpzgl9-gcc-wrapper-12.3.0/bin/gcc    -o CMakeFiles/saw.dir/src/saw.c.o -c /home/horhik/Code/Tinkering/sound/src/saw.c",
+  "file": "/home/horhik/Code/Tinkering/sound/src/saw.c"
+},
+{
+  "directory": "/home/horhik/Code/Tinkering/sound/build",
+  "command": "/nix/store/90h6k8ylkgn81k10190v5c9ldyjpzgl9-gcc-wrapper-12.3.0/bin/gcc  -I/home/horhik/Code/Tinkering/sound/include -I/nix/store/ssy23r370b8q1nfmpa4nm8xx8yli22af-raylib-4.5.0/include -o CMakeFiles/mouse.dir/src/mouse.c.o -c /home/horhik/Code/Tinkering/sound/src/mouse.c",
+  "file": "/home/horhik/Code/Tinkering/sound/src/mouse.c"
+}
+]

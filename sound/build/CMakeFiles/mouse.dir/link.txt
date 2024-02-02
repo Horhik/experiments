@@ -1,0 +1,1 @@
+/nix/store/90h6k8ylkgn81k10190v5c9ldyjpzgl9-gcc-wrapper-12.3.0/bin/gcc CMakeFiles/mouse.dir/src/mouse.c.o -o mouse  /nix/store/ssy23r370b8q1nfmpa4nm8xx8yli22af-raylib-4.5.0/lib/libraylib.so -ljack -L/nix/store/ssy23r370b8q1nfmpa4nm8xx8yli22af-raylib-4.5.0/lib -lraylib 
