@@ -28,10 +28,10 @@ static int on_process(jack_nframes_t nframes, void *arg) {
   in = jack_port_get_buffer(port_x_in, nframes);
   // array input samples
 
-  freq = in[0];
   for (int i = 0; i < nframes; ++i) {
+    freq = in[i];
     out[i] = phs;
-    phs += freq/sr;
+    phs += in[i]/sr;
 
     // keeping phs in [0; 1)
     if(phs >= 1) phs --;

@@ -1,9 +1,11 @@
 /* sine_unbounded.c: sine oscillator with unbounded phasor */
 
 #include <stdio.h>
-#include<signal.h>
 #include <math.h>
-#include <stdlib.h>
+
+#include "common.h"
+
+#include "jack/types.h"
 
 #define PI_F 3.14159265f
 #include <jack/jack.h>
@@ -22,7 +24,6 @@ static int on_process(jack_nframes_t nframes, void *arg) {
   jack_nframes_t i;
 
   out = jack_port_get_buffer(port_out, nframes);
-  // array input samples
   in = jack_port_get_buffer(port_in, nframes);
 
   for (int i = 0; i < nframes; ++i) {
@@ -33,9 +34,9 @@ static int on_process(jack_nframes_t nframes, void *arg) {
 }
 
 
-static void jack_init(void) {
+static void jack_init(char *client_name, jack_client_t* client) {
 
-  client = jack_client_open("sine", JackNoStartServer, NULL);
+  client = jack_client_open(client_name, JackNoStartServer, NULL);
 
 
   jack_set_process_callback(client, on_process, NULL);
@@ -47,27 +48,15 @@ static void jack_init(void) {
 }
 
 
-static void jack_finish(void) {
-
-  jack_deactivate(client);
-  jack_client_close(client);
-}
-void sig_handler(int signum)
-{
-  printf("\nDo some signal handling actions here\n");
-  exit( 0 );
-}
-
-
 
 int main(void) {
 
-  jack_init();
+  jack_init("sine", client);
 
   /* idle main thread */
-  signal( SIGINT, sig_handler );
+  catch_sigint();
   while(1){;} 
 
-  jack_finish();
+  jack_finish(client);
   return 0;
 }

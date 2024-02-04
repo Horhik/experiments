@@ -21,6 +21,7 @@ add_executable(mouse ${DIR}/mouse.c)
 #find_package(PkgConfig)
 find_package(raylib REQUIRED)
 find_library(JACK_LIBRARY jack)
+add_library(common src/common.c)
 
 # Include directories for header files
 target_include_directories(mouse
@@ -29,13 +30,12 @@ target_include_directories(mouse
 
 
 # linking mouse
-target_link_libraries(mouse PRIVATE raylib)
-target_link_libraries(mouse PRIVATE jack)
+target_link_libraries(mouse PRIVATE raylib jack common)
 
 #linking others
-target_link_libraries(phasor PRIVATE jack)
-target_link_libraries(sine PRIVATE jack m)
-target_link_libraries(saw PRIVATE jack)
+target_link_libraries(phasor PRIVATE jack common)
+target_link_libraries(sine PRIVATE jack m common)
+target_link_libraries(saw PRIVATE jack common)
 
 
 

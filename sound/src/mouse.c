@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include <stdio.h>
 #include <jack/jack.h>
+#include <stdlib.h>
+#include "common.h"
 #define SCREEN_SIZE 800
 
 typedef jack_default_audio_sample_t sample_t;
@@ -14,9 +16,9 @@ static float freq= 440;
 
 static int on_process(jack_nframes_t nframes, void *arg);
 
-static void jack_init(void) {
+static void jack_init(char *name, jack_client_t *client) {
 
-  client = jack_client_open("mouse", JackNoStartServer, NULL);
+  client = jack_client_open(name, JackNoStartServer, NULL);
 
   sr = jack_get_sample_rate(client);
 
@@ -44,31 +46,31 @@ static int on_process(jack_nframes_t nframes, void *arg){
   return 0;
 }
 
-static void jack_finish(void) {
-
-  jack_deactivate(client);
-
-  jack_client_close(client);
-}
-
-
 
 int main(void)
 {
     InitWindow(SCREEN_SIZE, SCREEN_SIZE, "Mous Capturing");
     // initialize sound
-    jack_init();
+    jack_init("mouse", client );
+
+    char *x,*y;
+    x = malloc((sizeof *x) * 20);
+    y = malloc((sizeof *x) * 20);
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
             ClearBackground(RAYWHITE);
             DrawText("UP-DOWN: tone, RIGHT-LEFT: shape", 190, 200, 20, LIGHTGRAY);
+	    sprintf(x, "X: %d", GetMouseX());
+	    sprintf(y, "Y: %d", GetMouseY());
+            DrawText(x, 190, 220, 20, BLACK);
+            DrawText(y, 190, 240, 20, BLACK);
         EndDrawing();
     }
 
     // finishing sound
-    jack_finish();
+    jack_finish(client);
     CloseWindow();
 
     return 0;

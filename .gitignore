@@ -1,5 +1,6 @@
 sound/build
 sound/bin
+sound/.cache
 attractorSonification/build
 attractorSonification/bin
 *~
