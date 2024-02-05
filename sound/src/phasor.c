@@ -29,7 +29,6 @@ static int on_process(jack_nframes_t nframes, void *arg) {
   // array input samples
 
   for (int i = 0; i < nframes; ++i) {
-    freq = in[i];
     out[i] = phs;
     phs += in[i]/sr;
 
