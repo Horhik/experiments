@@ -37,7 +37,9 @@ static void jack_init(char *name, jack_client_t *client) {
 
 static int on_process(jack_nframes_t nframes, void *arg){
 
+  static float phs= 0;
   sample_t *out_x, *out_y, *out_pitch;
+  jack_nframes_t i;
 
   out_pitch = jack_port_get_buffer(port_pitch_out, nframes);
   out_x = jack_port_get_buffer(port_x_out, nframes);
@@ -45,17 +47,21 @@ static int on_process(jack_nframes_t nframes, void *arg){
 
   // array input samples
 
-  static float old_pitch;   
+  static float old_freq;   
   for (int i = 0; i < nframes; ++i) {
     if(state) {
-      old_pitch = mapf(GetMouseX(), 0, SCREEN_SIZE, 0, MAX_FREQUENCY );
+      old_freq = mapf(GetMouseX(), 0, SCREEN_SIZE, 0, MAX_FREQUENCY );
     }
     
-    // if program in other state then keeping `old_pitch` as it was the last time
-    out_pitch[i] = old_pitch;
+    // if program in other state then keeping `old_freq` as it was the last time
+    out_pitch[i] = phs;
+    phs += old_freq/sr;
+
+    if(phs >= 1) phs --;
+    if(phs < 0) phs++;
+
     out_x[i] = mapf(GetMouseX(), 0, SCREEN_SIZE, 0.05f, 0.95f );
     out_y[i] = mapf(GetMouseY(), 0, SCREEN_SIZE, 0.05f, 0.95f );
-
   }
 
 
