@@ -1,0 +1,68 @@
+#+title: Conspect
+
+
+In the beginnig I simply used ~my_sine~ function
+
+#+begin_src c
+float my_sine(jack_nframes_t t, int f){
+    return vol*sin(2*PI_F*f*t/sr);
+}
+#+end_src
+
+~vol~ - volume /(global)/
+~sr~ - sample rate /(global)/
+~f~ - frequency
+~t~ - time
+
+There's a problem with changing frequency
+
+Looking at =sin= argument it's easy to see what with fixed ~f~ and ~t~ changing argument will change from 2 to 2π after  $\frac{sr}{f}$ times. But when $f$ changes time to traverse this part is not constant.
+
+It's easy to dont think about this "simple" as it seems formula  of sine argument (or sine phase) $\phi = ft$ but think about it as /function of time and it's derivative/.
+
+$\omega = \frac{d\phi}{dt}$
+
+Now we can think about phase $\phi$ as /function of frequency and it's derivative/ $\phi = \phi(t, \omega)$ and not $\phi = \phi(t, f)$
+
+We can use now $\phi$ for any oscillator (not only sine wave)
+Sine function will look like $osc(\phi) = sine(2\pi\phi)$
+That is $\phi$ changing from **0** to **1**
+
+Earlier we had changed the frequency directly inside the sine function. Now, to avoid clipping we will change the speed of a phase. The phase function eventually is a $f$-periodic function, which raps from 0 to 1 after $f$ periods.
+
+As we are working with samples, we can think about ~i~ and ~i + 1~ sample as about instantaneous moment. #+begin_center
+For example if phase in stage ~i~ is /1/-periodic phasor and each step is increased by $\frac{1}{sr}$ then to make it /f/-periodic we will increase the rest of the steps by $\frac{f}{sr}$
+
+The phasor code will be:
+#+begin_src c
+
+static float phase = 0;
+
+for (i = 0; i < nframes, i++){
+    phasor_samples_out[i] = phase;
+    phase += frequency/sample_rate;
+
+    // Bringin back to period [0, 1]
+    while(phase >= 1) phase--;
+    while(phase < 0) phase++;
+
+}
+
+#+end_src
+
+Compared to initial sine
+#+begin_src c
+for (i = 0; i < nframes; ++i)
+    sine_out[i] = my_sine(tick++, freq);
+#+end_src
+
+We got:
+#+begin_src c
+for (i = 0; i < nframes; ++i)
+    sine_out[i] = my_sine_(phasor_samples_in[i]);
+#+end_src
+
+That is there'is an ability to change instantenious frequency by changing the speed of phasor increasing from 0 to 1 and that ability is seen in the code where  we're putting value also depended on ~nframes~ and ~i~ (=phasor_samples_in=)
+
+
+
