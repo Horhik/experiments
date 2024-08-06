@@ -5,9 +5,6 @@
 #include <jack/jack.h>
 #define PI_F 3.14159265f
 
-extern float freq;
-extern float vol;
-
 typedef jack_default_audio_sample_t sample_t;
 typedef float (*oscillator_t)(float);
 

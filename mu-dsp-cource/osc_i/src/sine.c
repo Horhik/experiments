@@ -3,7 +3,7 @@
 
 float my_sine(float phi){
 
-    return sin(2*PI_F*phi);
+    return sinf(2*PI_F*phi);
 }
 
 

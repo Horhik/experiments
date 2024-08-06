@@ -2,7 +2,10 @@
 #include "osc_i.h"
 
 
-static jack_client_t *client = NULL;
+static float freq = 220.0 ;
+static float vol = 1.0;
+
+jack_client_t *client = NULL;
 static jack_port_t *freq_out = NULL;
 static jack_port_t *vol_out = NULL;
 static jack_port_t *sound_in = NULL;
@@ -88,7 +91,7 @@ int main(){
 
         // freq is global variable:while
         freq = (ballPosition.x/screenWidth)*1800 ;
-        vol = (ballPosition.y/screenHeight) ;
+        vol = (ballPosition.y/screenHeight)*1000 ;
 
         char buf[128];
         char buf2[128];

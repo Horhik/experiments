@@ -25,12 +25,15 @@ static int on_osc_process(jack_nframes_t nframes, void *arg){
 
 
 
+
     in = jack_port_get_buffer(port_phase, nframes);
     volume = jack_port_get_buffer(port_volume, nframes);
     out = jack_port_get_buffer(port_out, nframes);
 
-    for (i = 0; i < nframes; ++i)
+    for (i = 0; i < nframes; ++i){
+        printf("vol: %f - in: %f \n", volume[i], in[i]);
         out[i] = volume[i]*osc(in[i]);
+    }
 
     return 0;
 }

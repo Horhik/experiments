@@ -1,6 +1,6 @@
 #include "osc_i.h"
 
-static jack_client_t *client = NULL;
+jack_client_t *client = NULL;
 static jack_port_t *port_out = NULL;
 static jack_port_t *port_in = NULL;
 static jack_nframes_t sr;
