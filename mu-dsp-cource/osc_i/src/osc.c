@@ -1,9 +1,21 @@
-/* sine_simple.c: sine oscillator with fixed frequency */
 #include "osc_i.h"
 
-// audio generation is here:
-static int on_process(jack_nframes_t nframes, void *arg){
 
+jack_client_t *client = NULL;
+oscillator_t osc = NULL;
+const char *module_name = NULL;
+
+
+static jack_port_t *port_out = NULL;
+static jack_port_t *port_phase = NULL;
+static jack_port_t *port_volume = NULL;
+static jack_nframes_t sr;
+static jack_nframes_t frames;
+
+
+
+
+static int on_osc_process(jack_nframes_t nframes, void *arg){
 
     frames = nframes;
 
@@ -29,7 +41,7 @@ static int on_process(jack_nframes_t nframes, void *arg){
 
 
 
-static void jack_init(void){
+void jack_osc_init(const char* module_name, jack_client_t *client){
     // create jack client
     client = jack_client_open(module_name, JackNoStartServer, NULL);
 
@@ -37,7 +49,7 @@ static void jack_init(void){
     sr = jack_get_sample_rate(client);
 
     // initialize process callback
-    jack_set_process_callback(client, on_process, NULL);
+    jack_set_process_callback(client, on_osc_process, NULL);
 
 
     // initializing OUT port
